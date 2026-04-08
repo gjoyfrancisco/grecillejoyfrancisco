@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        CI = 'true'
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -11,7 +15,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running unit tests...'
-                bat 'set CI=true && npm test -- --watchAll=false'
+                bat 'npm test -- --watchAll=false'
             }
         }
     }
