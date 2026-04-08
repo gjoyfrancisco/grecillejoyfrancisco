@@ -9,13 +9,13 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Installing dependencies...'
-                bat 'npm install'
+                sh 'npm install'
             }
         }
         stage('Test') {
             steps {
                 echo 'Running unit tests...'
-                bat 'npm test -- --watchAll=false'
+                sh 'npm test -- --watchAll=false'
             }
         }
     }
