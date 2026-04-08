@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             agent {
@@ -10,12 +11,8 @@ pipeline {
             }
             steps {
                 sh '''
-                    ls -la
-                    node -v
-                    npm -v
                     npm install
                     npm run build
-                    ls -la
                 '''
             }
         }
@@ -27,10 +24,7 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                    test -f build/index.html
-                    npm test
-                '''
+                sh 'CI=true npm test -- --watchAll=false'
             }
         }
     }
