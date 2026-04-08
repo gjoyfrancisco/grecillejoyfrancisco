@@ -1,22 +1,36 @@
 pipeline {
     agent any
-
-    environment {
-        CI = 'true'
-    }
-
     stages {
-
         stage('Build') {
+            agent {
+                docker {
+                    image 'node:22.14.0'
+                    reuseNode true
+                }
+            }
             steps {
-                sh 'npm install'
-                sh 'npm run build'
+                sh '''
+                    ls -la
+                    node -v
+                    npm -v
+                    npm install
+                    npm run build
+                    ls -la
+                '''
             }
         }
         stage('Test') {
+            agent {
+                docker {
+                    image 'node:22.14.0'
+                    reuseNode true
+                }
+            }
             steps {
-                echo 'Running unit tests...'
-                bat 'npm test -- --watchAll=false'
+                sh '''
+                    test -f build/index.html
+                    npm test
+                '''
             }
         }
     }
